@@ -1,0 +1,96 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .complete {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center">To-Do List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="todo-table-body">
+        <!-- Tasks will be dynamically added here -->
+    </tbody>
+</table>
+
+<div style="text-align:center">
+    <input type="text" id="new-task" placeholder="New task">
+    <button onclick="addTask()">Add Task</button>
+</div>
+
+<script>
+    function addTask() {
+        const taskInput = document.getElementById('new-task');
+        const taskText = taskInput.value.trim();
+        if (taskText === '') return;
+
+        const tableBody = document.getElementById('todo-table-body');
+
+        const row = document.createElement('tr');
+
+        const taskCell = document.createElement('td');
+        taskCell.textContent = taskText;
+
+        const statusCell = document.createElement('td');
+        statusCell.textContent = 'Pending';
+        
+        const actionCell = document.createElement('td');
+
+        const completeButton = document.createElement('button');
+        completeButton.textContent = 'Complete';
+        completeButton.onclick = function() {
+            taskCell.classList.toggle('complete');
+            statusCell.textContent = taskCell.classList.contains('complete') ? 'Completed' : 'Pending';
+        };
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+            tableBody.removeChild(row);
+        };
+
+        actionCell.appendChild(completeButton);
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(taskCell);
+        row.appendChild(statusCell);
+        row.appendChild(actionCell);
+
+        tableBody.appendChild(row);
+
+        taskInput.value = '';
+    }
+</script>
+
+</body>
+</html>
